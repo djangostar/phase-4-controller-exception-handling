@@ -1,5 +1,5 @@
 class BirdsController < ApplicationController
-  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response 
+rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
   # GET /birds
   def index
     birds = Bird.all
@@ -41,10 +41,6 @@ class BirdsController < ApplicationController
 
   private
 
-  def find_bird
-    Bird.find(params[:id])
-  end
-
   def bird_params
     params.permit(:name, :species, :likes)
   end
@@ -53,4 +49,7 @@ class BirdsController < ApplicationController
     render json: { error: "Bird not found" }, status: :not_found
   end
 
+  def find_bird
+    Bird.find_by_(params[:id])
+  end
 end
